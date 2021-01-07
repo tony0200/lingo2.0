@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<head>
+    <style>
+        table{
+            border:0px solid transparent;
+        }
+
+        body{
+            background-color: #35363a;
+        }
+
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="content">
+    <form th:action="@{/game/guess}" method="post">
+        <div class="form-group">
+            <label for="word" style="color: white">Voer hier jou gok in</label>
+            <input id="word" name="word" type="text" class="form-control w-25" placeholder="Woord">
+        </div>
+        <button type="submit" class="btn btn-primary">Invoeren</button>
+    </form>
+
+    <div id="countdown" style="color: white"></div>
+
+    <div class="container mw-75">
+        <table class="table">
+            <tbody>
+                <tr class="row" th:each="guess : ${game?.getGuessesByWord()}">
+                    <td style="width: 14%" th:each="feedback : ${guess.getFeedbackInRightOrder()}">
+                        <p th:if="${feedback.getState()} == ${feedback.state.CORRECT}" th:text="${feedback.getLetter()}" style="color: forestgreen">
+                        </p>
+
+                        <p th:if="${feedback.getState()} == ${feedback.state.ABSENT}" th:text="${feedback.getLetter()}" style="color: white">
+                        </p>
+
+                        <p th:if="${feedback.getState()} == ${feedback.state.EMPTY}" th:text="${feedback.getLetter()}" style="color: white">
+                        </p>
+
+                        <p th:if="${feedback.getState()} == ${feedback.state.PRESENT}" th:text="${feedback.getLetter()}" style="color: #e6e230">
+                        </p>
+
+                        <p th:if="${feedback.getState()} == ${feedback.state.INVALID}" th:text="${feedback.getLetter()}" style="color: red">
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-center" style="color: white" th:text="${'Aantal punten: ' + game.getPoints()}"></div>
+</div>
+</body>
+<script>
+    var timeleft = 10;
+    var downloadTimer = setInterval(function(){
+        if(timeleft <= 0){
+            clearInterval(downloadTimer);
+            document.getElementById("countdown").innerHTML = "Te laat";
+        } else {
+            document.getElementById("countdown").innerHTML = "Nog " + timeleft + " seconden";
+        }
+        timeleft -= 1;
+    }, 1000);
+</script>
+</html>
