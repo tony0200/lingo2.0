@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Game")
 public class GameTest {
-/*
+
     private static final ArrayList<WordToGuess> wordsToGuess = new ArrayList<>();
     private static final ArrayList<Guess> guesses = new ArrayList<>();
     private static final Game game1 = new Game("email1@gmail.com", 0, 5);
@@ -133,5 +133,5 @@ public class GameTest {
         game1.newRound();
 
         assertTrue(game1.getNumberOfTurns() == 5 && game1.getPoints() == 1);
-    }*/
+    }
 }
