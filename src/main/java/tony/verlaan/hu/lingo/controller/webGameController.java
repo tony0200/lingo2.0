@@ -48,7 +48,7 @@ public class webGameController {
     @PostMapping("/game/submit")
     public ModelAndView submit(ModelMap modelMap, @AuthenticationPrincipal OAuth2User principal, @RequestParam String name) {
             gameController.setScore(name, (String) principal.getAttributes().get("email"));
-            return game(modelMap, principal);
+            return home(modelMap);
     }
 
     private ModelAndView submitName() {

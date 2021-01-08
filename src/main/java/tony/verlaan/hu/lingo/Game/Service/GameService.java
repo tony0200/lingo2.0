@@ -24,10 +24,6 @@ public class GameService {
         return game;
     }
 
-    public ArrayList<Character> makeGrid(Game game) {
-        return game.makeGrid();
-    }
-
     public Game gameActive(String email) {
         List<Game> games = gameRepository.findGameByEmail(email);
         Game returnValue = null;

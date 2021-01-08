@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.util.ResourceUtils;
 
 import javax.persistence.*;
 import java.io.*;
@@ -38,9 +37,6 @@ public class Game {
     )
     private List<Guess> guesses = new ArrayList<>();
 
-/*    @OneToOne
-    private Score score;*/
-
     @Column(name = "end_date")
     private Date endDate;
 
@@ -54,31 +50,12 @@ public class Game {
     )
     private List<WordToGuess> wordsToGuess = new ArrayList<>();
 
+
+
     public Game(String email, int points, int turns) {
         this.email = email;
         this.points = points;
         this.numberOfTurns = turns;
-    }
-
-    public ArrayList<Character> makeGrid() {
-        String word = getWordToGuessString();
-        ArrayList<Character> characters = new ArrayList<>();
-        for (Character character : word.toCharArray()) {
-            characters.add('.');
-        }
-        characters.set(0, word.charAt(0));
-        for (Guess guess : guesses) {
-            if (guess.getWordToGuess() == getWordToGuess()) {
-                assert guess.getFeedbackSet() != null;
-                for (Feedback feedback : guess.getFeedbackSet()) {
-                    if (feedback.getState().equals(Feedback.State.CORRECT)) {
-                        characters.set(feedback.getPlace(), feedback.getLetter());
-                    }
-                }
-                break;
-            }
-        }
-        return characters;
     }
 
     public void addGuess() {
@@ -121,14 +98,12 @@ public class Game {
     }
 
     public String getWordToGuessString() {
-        String word = null;
-        for (WordToGuess wordToGuess : wordsToGuess) {
-            if (wordToGuess.getEndDate() == null) {
-                word = wordToGuess.getWord();
-                break;
-            }
+        WordToGuess word = getWordToGuess();
+        if (word == null) {
+            return null;
+        } else {
+            return word.getWord();
         }
-        return word;
     }
 
     public WordToGuess getWordToGuess() {

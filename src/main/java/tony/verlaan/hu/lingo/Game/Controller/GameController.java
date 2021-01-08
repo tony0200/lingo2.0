@@ -43,7 +43,7 @@ public class GameController {
         if (guessService.inTime(game)) {
             guess = guessService.makeGuess(game, word, game.getWords(game.getWordToGuessString().length()));
         } else {
-            guess = guessService.makeGuess(game, "empty", game.getWords(game.getWordToGuessString().length()));
+            guess = guessService.makeGuess(game, "invalid", game.getWords(game.getWordToGuessString().length()));
         }
         if (game.getWordToGuessString().equals(guess.getWord())) {
             WordToGuess wordToGuess = wordToGuessService.makeWordToGuess(game);
